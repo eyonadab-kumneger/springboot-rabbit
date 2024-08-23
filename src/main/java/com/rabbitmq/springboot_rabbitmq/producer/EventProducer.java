@@ -26,7 +26,7 @@ public class EventProducer {
     public void sendMessage(String message){
 
         logger.info(String.format("Message Coming thru -> %s", message));
-
-        rabbitTemplate.convertSendAndReceive(exchangeName,routingKey,message);
+        
+        rabbitTemplate.convertAndSend(exchangeName,routingKey,message);
     }
 }
