@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 
-
 @Configuration
 public class RabbitMQConfig {
 
@@ -25,7 +24,7 @@ public class RabbitMQConfig {
     private String routingKey;
 
     @Value("${rabbitmq.json.routing-key}")
-    private String jsoRoutingKey;
+    private String jsonRoutingKey;
 
     @Bean
     public Queue queue(){
@@ -58,7 +57,7 @@ public class RabbitMQConfig {
 
         return BindingBuilder.bind(jsonQueue())
                 .to(exchange())
-                .with(jsoRoutingKey);
+                .with(jsonRoutingKey);
     }
 
     @Bean
