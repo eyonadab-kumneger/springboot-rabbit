@@ -13,48 +13,45 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
-    @Value("${rabbitmq.queue}")
-    private String queueName;
+    @Value("${rabbitmq.string-queue}")
+    private String stringQueueName;
 
     @Value("${rabbitmq.json.queue}")
     private String jsonQueueName;
+
     @Value("${rabbitmq.exchange}")
     private String exchangeName;
-    @Value("${rabbitmq.routing-key}")
+
+    @Value("${rabbitmq.string-routing-key}")
     private String routingKey;
 
     @Value("${rabbitmq.json.routing-key}")
     private String jsonRoutingKey;
 
     @Bean
-    public Queue queue(){
-
-        return new Queue(queueName);
+    public Queue stringQueueName(){
+        return new Queue(stringQueueName);
     }
 
     @Bean
     public Queue jsonQueue(){
-
         return new Queue(jsonQueueName);
     }
 
     @Bean
     public TopicExchange exchange(){
-
         return new TopicExchange(exchangeName);
     }
 
     @Bean
-    public Binding binding(){
-
-        return BindingBuilder.bind(queue())
+    public Binding stringBinding(){
+        return BindingBuilder.bind(stringQueueName())
                 .to(exchange())
                 .with(routingKey);
     }
 
     @Bean
     public Binding jsonBinding(){
-
         return BindingBuilder.bind(jsonQueue())
                 .to(exchange())
                 .with(jsonRoutingKey);
@@ -62,13 +59,11 @@ public class RabbitMQConfig {
 
     @Bean
     public MessageConverter converter(){
-
         return new Jackson2JsonMessageConverter();
     }
 
     @Bean
     public AmqpTemplate amqpTemplate(ConnectionFactory connectionFactory){
-
         RabbitTemplate rabbit = new RabbitTemplate(connectionFactory);
         rabbit.setMessageConverter(converter());
 

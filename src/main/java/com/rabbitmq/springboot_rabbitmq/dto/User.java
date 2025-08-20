@@ -7,5 +7,5 @@ public class User {
 
     private String id;
     private String name;
-    private String f_name;
+    private String fName;
 }
